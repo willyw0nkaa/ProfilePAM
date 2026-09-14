@@ -5,12 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -19,11 +19,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.profilepam.R
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +45,7 @@ fun ProfileScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFCDEEEd))
+            .background(Color(0xFFF5F5F5))
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -51,14 +55,16 @@ fun ProfileScreen() {
         Box(
             modifier = Modifier
                 .size(120.dp)
-                .background(Color(0xFFFF7AA2), shape = CircleShape),
+                .background(Color(0xFFFFA6CA), shape = CircleShape),
             contentAlignment = Alignment.Center
         ) {
-            Icon(
-                imageVector = Icons.Filled.Person,
+            Image(
+                painter = painterResource(id = R.drawable.foto_profil),
                 contentDescription = "Foto Profil",
-                tint = Color.White,
-                modifier = Modifier.size(64.dp)
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(112.dp)
+                    .clip(CircleShape)
             )
         }
 
@@ -67,7 +73,6 @@ fun ProfileScreen() {
         Text(
             text = "Naila Rania Shofa",
             fontSize = 22.sp,
-            color = Color.White,
             fontWeight = FontWeight.Bold
         )
 
@@ -79,16 +84,17 @@ fun ProfileScreen() {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Baris info kontak
-        Row(
+        // Daftar kontak, tiap baris pakai Row (icon + teks)
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly
+                .padding(horizontal = 8.dp)
         ) {
-            ProfileInfoItem(icon = Icons.Filled.Email, label = "Email")
-            ProfileInfoItem(icon = Icons.Filled.Phone, label = "Telepon")
-            ProfileInfoItem(icon = Icons.Filled.LocationOn, label = "Alamat")
+            ContactRow(icon = Icons.Filled.Email, value = "nailarania.s@gmail.com")
+            Spacer(modifier = Modifier.height(12.dp))
+            ContactRow(icon = Icons.Filled.Phone, value = "+62 878-0144-4777")
+            Spacer(modifier = Modifier.height(12.dp))
+            ContactRow(icon = Icons.Filled.LocationOn, value = "Malang")
         }
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -108,7 +114,8 @@ fun ProfileScreen() {
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Mahasiswa Sistem Informasi semester 5 yang memiliki ketertarikan terhadap bisnis dan IT.",
+                    text = "Mahasiswa Sistem Informasi Universitas Brawijaya yang tertarik pada pengembangan " +
+                            "aplikasi mobile dan perancangan sistem enterprise.",
                     fontSize = 14.sp
                 )
             }
@@ -117,17 +124,18 @@ fun ProfileScreen() {
 }
 
 @Composable
-fun ProfileInfoItem(icon: ImageVector, label: String) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally
+fun ContactRow(icon: ImageVector, value: String) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
             imageVector = icon,
-            contentDescription = label,
-            tint = Color(0xFFFF7AA2)
+            contentDescription = value,
+            tint = Color(0xFFFFA6CA),
+            modifier = Modifier.size(20.dp)
         )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(text = label, fontSize = 12.sp)
+        Spacer(modifier = Modifier.width(12.dp))
+        Text(text = value, fontSize = 14.sp)
     }
 }
 
